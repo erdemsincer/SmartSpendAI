@@ -1,0 +1,25 @@
+services:
+  auth-api:
+    build:
+      context: ./src/Services/AuthService
+      dockerfile: AuthService.API/Dockerfile
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - auth-db
+
+  auth-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: authdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+
+volumes:
+  auth_data:
