@@ -9,9 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UploadService.Application\UploadService.Application.csproj" />
     <ProjectReference Include="..\UploadService.Domain\UploadService.Domain.csproj" />
   </ItemGroup>
 
