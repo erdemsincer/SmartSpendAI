@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using OCRService.Domain.Entities;
+using OCRService.Domain.Interfaces;
 using OCRService.Shared.Events;
 using OCRService.Worker.Interfaces;
 using RabbitMQ.Client;
@@ -12,20 +12,24 @@ namespace OCRService.Worker.Services;
 public class OcrWorker : BackgroundService
 {
     private readonly IOcrProcessor _ocrProcessor;
+    private readonly IOcrResultRepository _ocrRepository;
+    private readonly Interfaces.IEventPublisher _eventPublisher;
     private readonly ILogger<OcrWorker> _logger;
     private IConnection _connection;
     private IModel _channel;
 
-    public OcrWorker(IOcrProcessor ocrProcessor, ILogger<OcrWorker> logger)
+    public OcrWorker(
+        IOcrProcessor ocrProcessor,
+        IOcrResultRepository ocrRepository,
+        Interfaces.IEventPublisher eventPublisher,
+        ILogger<OcrWorker> logger)
     {
         _ocrProcessor = ocrProcessor;
+        _ocrRepository = ocrRepository;
+        _eventPublisher = eventPublisher;
         _logger = logger;
 
-        var factory = new ConnectionFactory()
-        {
-            HostName = "rabbitmq", // 🐇 Docker'daki servis adı
-            Port = 5672
-        };
+        var factory = new ConnectionFactory() { HostName = "rabbitmq", Port = 5672 };
 
         int retries = 5;
         while (retries > 0)
@@ -34,8 +38,7 @@ public class OcrWorker : BackgroundService
             {
                 _connection = factory.CreateConnection();
                 _channel = _connection.CreateModel();
-
-                _channel.QueueDeclare(queue: "file_uploaded", durable: true, exclusive: false, autoDelete: false, arguments: null);
+                _channel.QueueDeclare(queue: "file_uploaded", durable: true, exclusive: false, autoDelete: false);
                 _logger.LogInformation("✅ RabbitMQ bağlantısı kuruldu ve kuyruk tanımlandı.");
                 break;
             }
@@ -65,8 +68,28 @@ public class OcrWorker : BackgroundService
             if (@event is not null)
             {
                 _logger.LogInformation("📥 Event alındı: {FilePath}", @event.FilePath);
-                var result = await _ocrProcessor.ProcessImageAsync(@event.FilePath);
-                _logger.LogInformation("🧠 OCR sonucu (FileId: {@event.FileId}):\n{Text}", @event.FileId, result);
+                var text = await _ocrProcessor.ProcessImageAsync(@event.FilePath);
+
+                var result = new OcrResult
+                {
+                    FileId = @event.FileId,
+                    UserId = @event.UserId,
+                    RawText = text
+                };
+
+                await _ocrRepository.AddAsync(result);
+                _logger.LogInformation("✅ OCR sonucu DB’ye yazıldı: {FileId}", @event.FileId);
+
+                // ParserService'e event gönder
+                var processedEvent = new OcrProcessedEvent
+                {
+                    FileId = result.FileId,
+                    UserId = result.UserId,
+                    RawText = result.RawText
+                };
+
+                await _eventPublisher.PublishAsync(processedEvent, "ocr_processed");
+                _logger.LogInformation("📤 OcrProcessedEvent gönderildi: {FileId}", result.FileId);
             }
         };
 
@@ -76,3 +99,4 @@ public class OcrWorker : BackgroundService
         return Task.CompletedTask;
     }
 }
+
