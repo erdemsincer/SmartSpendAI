@@ -4,12 +4,15 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ../ ./
-RUN dotnet restore "UploadService.API/UploadService.API.csproj"
-RUN dotnet build "UploadService.API/UploadService.API.csproj" -c Release -o /app/build
+
+# Tüm solution'ý kopyalýyoruz çünkü projeler arasý referans var
+COPY . .
+
+RUN dotnet restore "src/Services/UploadService/UploadService.API/UploadService.API.csproj"
+RUN dotnet build "src/Services/UploadService/UploadService.API/UploadService.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "UploadService.API/UploadService.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/Services/UploadService/UploadService.API/UploadService.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
