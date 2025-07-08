@@ -1,14 +1,16 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using UploadService.Application.Commands;
+using UploadService.Application.Commands;
+using UploadService.Application.Common.Messaging;
 using UploadService.Application.Handlers;
-using UploadService.Application.Commands;
 using UploadService.Domain.Interfaces;
+using UploadService.Infrastructure.Messaging;
 using UploadService.Infrastructure.Persistence;
 using UploadService.Infrastructure.Repositories;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Up
 // FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<UploadReceiptCommandValidator>();
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddSingleton<IEventPublisher, RabbitMqEventPublisher>();
 
 // Controllers
 builder.Services.AddControllers();
