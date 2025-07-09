@@ -31,7 +31,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ParserDbContext>();
+    db.Database.Migrate(); // ➕ Burada otomatik migration uygulanır
+}
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
