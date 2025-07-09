@@ -1,21 +1,31 @@
+﻿using Microsoft.EntityFrameworkCore;
 using ParserService.API.Services;
 using ParserService.Core.Interfaces;
 using ParserService.Core.Services;
+using ParserService.Infrastructure;
+using ParserService.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 🔧 Add services to the container BEFORE builder.Build()
 
+// Swagger + Controllers
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DbContext
+builder.Services.AddDbContext<ParserDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// DI
+builder.Services.AddSingleton<IReceiptParser, SimpleReceiptParser>();
+builder.Services.AddScoped<IParsedReceiptRepository, ParsedReceiptRepository>();
+builder.Services.AddHostedService<ParserWorker>();
+
 var app = builder.Build();
 
-
-builder.Services.AddHostedService<ParserWorker>();
-builder.Services.AddSingleton<IReceiptParser, SimpleReceiptParser>();
+// Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -23,9 +33,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
