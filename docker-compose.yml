@@ -67,6 +67,31 @@ services:
     volumes:
       - ocr_data:/var/lib/postgresql/data
 
+  parser-api:
+    build:
+      context: .
+      dockerfile: src/Services/ParserService/ParserService.API/Dockerfile
+    ports:
+      - "5003:8080"
+    depends_on:
+      - parser-db
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./src/Services/ParserService:/app
+
+  parser-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: parserdb
+    ports:
+      - "5436:5432"
+    volumes:
+      - parser_data:/var/lib/postgresql/data
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -77,3 +102,4 @@ volumes:
   auth_data:
   upload_data:
   ocr_data:
+  parser_data:
