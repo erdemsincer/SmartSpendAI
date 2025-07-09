@@ -78,8 +78,6 @@ services:
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    volumes:
-      - ./src/Services/ParserService:/app
 
   parser-db:
     image: postgres:15
@@ -95,8 +93,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "15672:15672"   # Management UI
 
 volumes:
   auth_data:
