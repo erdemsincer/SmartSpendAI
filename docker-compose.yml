@@ -50,9 +50,22 @@ services:
       context: .
       dockerfile: src/Services/OCRService/OCRService.Worker/Dockerfile
     depends_on:
+      - ocr-db
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+
+  ocr-db:
+    image: postgres:15
+    container_name: smartspendai-ocr-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ocrdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - ocr_data:/var/lib/postgresql/data
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -63,3 +76,4 @@ services:
 volumes:
   auth_data:
   upload_data:
+  ocr_data:
