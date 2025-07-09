@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Connections;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OCRService.Shared.Events;
@@ -15,15 +15,15 @@ public class ParserWorker : BackgroundService
 {
     private readonly ILogger<ParserWorker> _logger;
     private readonly IReceiptParser _parser;
-    private readonly IParsedReceiptRepository _repository;
+    private readonly IServiceScopeFactory _scopeFactory;
     private IConnection _connection;
     private IModel _channel;
 
-    public ParserWorker(ILogger<ParserWorker> logger, IReceiptParser parser, IParsedReceiptRepository repository)
+    public ParserWorker(ILogger<ParserWorker> logger, IReceiptParser parser, IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
         _parser = parser;
-        _repository = repository;
+        _scopeFactory = scopeFactory;
 
         var factory = new ConnectionFactory() { HostName = "rabbitmq", Port = 5672 };
         _connection = factory.CreateConnection();
@@ -38,18 +38,28 @@ public class ParserWorker : BackgroundService
 
         consumer.Received += async (model, ea) =>
         {
-            var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-            var @event = JsonSerializer.Deserialize<OcrProcessedEvent>(message);
-
-            if (@event is not null)
+            try
             {
-                _logger.LogInformation("📥 OCR sonucu alındı: {FileId}", @event.FileId);
+                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
+                var @event = JsonSerializer.Deserialize<OcrProcessedEvent>(message);
 
-                var parsed = _parser.Parse(@event.FileId, @event.UserId, @event.RawText);
+                if (@event is not null)
+                {
+                    _logger.LogInformation("📥 OCR sonucu alındı: {FileId}", @event.FileId);
 
-                await _repository.AddAsync(parsed);
+                    var parsed = _parser.Parse(@event.FileId, @event.UserId, @event.RawText);
 
-                _logger.LogInformation("📊 Fiş DB’ye yazıldı: {Merchant} - {TotalAmount}₺", parsed.Merchant, parsed.TotalAmount);
+                    using var scope = _scopeFactory.CreateScope();
+                    var repository = scope.ServiceProvider.GetRequiredService<IParsedReceiptRepository>();
+
+                    await repository.AddAsync(parsed);
+
+                    _logger.LogInformation("📊 Fiş DB’ye yazıldı: {Merchant} - {TotalAmount}₺", parsed.Merchant, parsed.TotalAmount);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "❌ OCR sonucu işlenirken hata oluştu");
             }
         };
 
