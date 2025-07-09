@@ -42,6 +42,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCRService.Domain", "src\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCRService.Infrastructure", "src\Services\OCRService\OCRService.Infrastructure\OCRService.Infrastructure.csproj", "{B06AFE45-4814-4EDB-95F8-946492244025}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ParserService", "ParserService", "{52DBB63A-5DBC-44FE-9CA9-2AB907318E8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserService.API", "src\Services\ParserService\ParserService.API\ParserService.API.csproj", "{210AA01A-1406-447D-BC8C-6D2F71FA674F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserService.Core", "src\Services\ParserService\ParserService.Core\ParserService.Core.csproj", "{89C1DD69-B97B-4097-B753-67BB0D9D21C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserService.Infrastructure", "src\Services\ParserService\ParserService.Infrastructure\ParserService.Infrastructure.csproj", "{21842E96-BACC-4337-BB26-FB35B967E7B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +104,18 @@ Global
 		{B06AFE45-4814-4EDB-95F8-946492244025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B06AFE45-4814-4EDB-95F8-946492244025}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B06AFE45-4814-4EDB-95F8-946492244025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210AA01A-1406-447D-BC8C-6D2F71FA674F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210AA01A-1406-447D-BC8C-6D2F71FA674F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210AA01A-1406-447D-BC8C-6D2F71FA674F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210AA01A-1406-447D-BC8C-6D2F71FA674F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C1DD69-B97B-4097-B753-67BB0D9D21C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C1DD69-B97B-4097-B753-67BB0D9D21C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C1DD69-B97B-4097-B753-67BB0D9D21C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C1DD69-B97B-4097-B753-67BB0D9D21C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21842E96-BACC-4337-BB26-FB35B967E7B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21842E96-BACC-4337-BB26-FB35B967E7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21842E96-BACC-4337-BB26-FB35B967E7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21842E96-BACC-4337-BB26-FB35B967E7B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +137,10 @@ Global
 		{D53EB867-F42F-4547-AE27-7539AD07011F} = {210B3195-AAD8-456F-86C3-76DF34749FF5}
 		{D0EF0A49-17E0-402E-A9AA-0C78A87B29C3} = {210B3195-AAD8-456F-86C3-76DF34749FF5}
 		{B06AFE45-4814-4EDB-95F8-946492244025} = {210B3195-AAD8-456F-86C3-76DF34749FF5}
+		{52DBB63A-5DBC-44FE-9CA9-2AB907318E8B} = {ECC549F7-8069-4594-B891-7B56030F8E2C}
+		{210AA01A-1406-447D-BC8C-6D2F71FA674F} = {52DBB63A-5DBC-44FE-9CA9-2AB907318E8B}
+		{89C1DD69-B97B-4097-B753-67BB0D9D21C2} = {52DBB63A-5DBC-44FE-9CA9-2AB907318E8B}
+		{21842E96-BACC-4337-BB26-FB35B967E7B3} = {52DBB63A-5DBC-44FE-9CA9-2AB907318E8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28677A93-26B0-4DF0-B77A-AA9F025F7AD0}
