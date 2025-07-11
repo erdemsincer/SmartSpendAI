@@ -1,11 +1,12 @@
-﻿using System.Text;
-using System.Text.Json;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+﻿using AIClassifierService.Core.Interfaces;
+using AIClassifierService.Shared.Events;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using AIClassifierService.Shared.Events;
-using AIClassifierService.Core.Interfaces;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using SpendingService.Shared.Events;
+using System.Text;
+using System.Text.Json;
 
 namespace AIClassifierService.API.Services;
 
@@ -45,10 +46,13 @@ public class ClassifierWorker : BackgroundService
 
                 var classified = new ReceiptClassifiedEvent
                 {
+                    UserId = @event.UserId,
                     ReceiptId = @event.ReceiptId,
                     Category = category,
+                    Amount = @event.TotalAmount,
                     ClassifiedAt = DateTime.UtcNow
                 };
+
 
                 var payload = JsonSerializer.Serialize(classified);
                 var bytes = Encoding.UTF8.GetBytes(payload);
