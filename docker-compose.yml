@@ -104,8 +104,31 @@ services:
     ports:
       - "15672:15672"   # Management UI
 
+  spending-api:
+    build:
+      context: .
+      dockerfile: src/Services/SpendingService/SpendingService.API/Dockerfile
+    ports:
+      - "5005:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - spending-db
+
+  spending-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spendingdb
+    ports:
+      - "5437:5432"
+    volumes:
+      - spending_data:/var/lib/postgresql/data
+
 volumes:
   auth_data:
   upload_data:
   ocr_data:
   parser_data:
+  spending_data:
