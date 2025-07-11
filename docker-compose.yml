@@ -89,7 +89,16 @@ services:
       - "5436:5432"
     volumes:
       - parser_data:/var/lib/postgresql/data
-
+  aiclassifier-api:
+    build:
+      context: .
+      dockerfile: src/Services/AIClassifierService/AIClassifierService.API/Dockerfile
+    ports:
+      - "5004:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
   rabbitmq:
     image: rabbitmq:3-management
     ports:
