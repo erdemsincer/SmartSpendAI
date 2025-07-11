@@ -58,6 +58,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIClassifierService.Core", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIClassifierService.Shared", "src\Services\AIClassifierService.Shared\AIClassifierService.Shared\AIClassifierService.Shared.csproj", "{B375A7E9-BE2C-4DAD-B8B6-0BD7C153F164}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpendingService", "SpendingService", "{0C060262-CDCB-4C78-B17C-ED84B865B8FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingService.API", "src\Services\SpendingService\SpendingService.API\SpendingService.API.csproj", "{4E199573-2A18-4822-8A11-74EA03F4158B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingService.Application", "src\Services\SpendingService\SpendingService.Application\SpendingService.Application.csproj", "{E79CBF50-E6F2-4BA9-B06C-75F54F462F92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingService.Domain", "src\Services\SpendingService\SpendingService.Domain\SpendingService.Domain.csproj", "{0A4AABB2-52F8-434C-9917-4D5244DBE355}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendingService.Infrastructure", "src\Services\SpendingService\SpendingService.Infrastructure\SpendingService.Infrastructure.csproj", "{22C50DD2-6B13-4696-8782-012FE67E647B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +146,22 @@ Global
 		{B375A7E9-BE2C-4DAD-B8B6-0BD7C153F164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B375A7E9-BE2C-4DAD-B8B6-0BD7C153F164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B375A7E9-BE2C-4DAD-B8B6-0BD7C153F164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E199573-2A18-4822-8A11-74EA03F4158B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E199573-2A18-4822-8A11-74EA03F4158B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E199573-2A18-4822-8A11-74EA03F4158B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E199573-2A18-4822-8A11-74EA03F4158B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E79CBF50-E6F2-4BA9-B06C-75F54F462F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E79CBF50-E6F2-4BA9-B06C-75F54F462F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E79CBF50-E6F2-4BA9-B06C-75F54F462F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E79CBF50-E6F2-4BA9-B06C-75F54F462F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4AABB2-52F8-434C-9917-4D5244DBE355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4AABB2-52F8-434C-9917-4D5244DBE355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4AABB2-52F8-434C-9917-4D5244DBE355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4AABB2-52F8-434C-9917-4D5244DBE355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22C50DD2-6B13-4696-8782-012FE67E647B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C50DD2-6B13-4696-8782-012FE67E647B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C50DD2-6B13-4696-8782-012FE67E647B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C50DD2-6B13-4696-8782-012FE67E647B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +191,11 @@ Global
 		{2219176F-490E-40CB-8A38-B9543EE5FFFC} = {BAC5A99F-FE80-4965-A89D-656C56B8FB25}
 		{0B58B36A-88ED-4984-B525-4B382F0E5BE3} = {BAC5A99F-FE80-4965-A89D-656C56B8FB25}
 		{B375A7E9-BE2C-4DAD-B8B6-0BD7C153F164} = {BAC5A99F-FE80-4965-A89D-656C56B8FB25}
+		{0C060262-CDCB-4C78-B17C-ED84B865B8FD} = {ECC549F7-8069-4594-B891-7B56030F8E2C}
+		{4E199573-2A18-4822-8A11-74EA03F4158B} = {0C060262-CDCB-4C78-B17C-ED84B865B8FD}
+		{E79CBF50-E6F2-4BA9-B06C-75F54F462F92} = {0C060262-CDCB-4C78-B17C-ED84B865B8FD}
+		{0A4AABB2-52F8-434C-9917-4D5244DBE355} = {0C060262-CDCB-4C78-B17C-ED84B865B8FD}
+		{22C50DD2-6B13-4696-8782-012FE67E647B} = {0C060262-CDCB-4C78-B17C-ED84B865B8FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28677A93-26B0-4DF0-B77A-AA9F025F7AD0}
