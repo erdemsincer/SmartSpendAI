@@ -1,0 +1,6 @@
+@AIClassifierService.API_HostAddress = http://localhost:5095
+
+GET {{AIClassifierService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
