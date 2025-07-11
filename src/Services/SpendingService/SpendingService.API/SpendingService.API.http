@@ -1,0 +1,6 @@
+@SpendingService.API_HostAddress = http://localhost:5108
+
+GET {{SpendingService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
